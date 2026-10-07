@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch()
+    
     // ==========================================
     // 1. كود صفحة التسجيل (Register Page)
     // ==========================================
@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // جلب البيانات من ملف users.json الخارجي
-                const response = await fetch('users.json');
+                // جلب البيانات من ملف users.json الموجود في المجلد الرئيسي (نطلع خطوة للوراء ../)
+                const response = await fetch('../users.json');
                 const fileUsers = await response.json();
 
                 // جلب البيانات المضافة حديثاً من الـ localStorage (إن وجدت)
@@ -83,14 +83,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (foundUser) {
                     alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
-                    // window.location.href = 'home.html'; // الانتقال للصفحة الرئيسية لاحقاً
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
                 }
 
             } catch (error) {
                 console.error('Error loading users.json:', error);
-                alert (' حدث خطأ أثناء الاتصال بقاعدة البيانات المحلية.');
+                alert('حدث خطأ أثناء الاتصال بقاعدة البيانات المحلية.');
             }
         });
     }

@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="arzcore-logo-black.png" type="image/x-icon">
-    <title>ArzCore</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="shortcut icon" href="../arzcore-logo-black.png" type="image/x-icon">
+    <title>ArzCore - Login</title>
 </head>
 <body>
-    <script src="script.js"></script>
     <div class="login-container">
         <h1>Login</h1>
 
         <form action="login.html" name="login" method="post" id="loginForm">
-            <input type="text" class="box" name="login" id="login" size="25" maxlength="25" placeholder="Enter your Username">
+            <input type="text" class="box" name="login" id="login" size="25" maxlength="25" placeholder="Enter your Username" required>
             <br> <br>
-            <input type="password" class="box" name="ps" id="ps" size="25" maxlength="25" placeholder="Enter you Password">
+            <input type="password" class="box" name="ps" id="ps" size="25" maxlength="25" placeholder="Enter your Password" required>
             <br> <br>
             <input type="submit" value="Login" class="logb">
         </form>
 
-        <h4>If you don't have account <a href="register.html" target="_blank">Register account</a> </h3>
+        <h4>If you don't have account <a href="register.html">Register account</a></h4>
     </div>
+
+    <!-- ربط ملف الجافاسكريبت مع النقطتين للخروج للمجلد الرئيسي ثم الدخول لمجلد Script -->
+    <script src="../Script/script.js"></script>
 </body>
 </html>
