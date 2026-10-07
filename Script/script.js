@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // منع الإرسال الافتراضي
+            e.preventDefault();
 
             const firstName = document.getElementById('fn').value.trim();
             const lastName = document.getElementById('ls').value.trim();
@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const password = document.getElementById('ps').value;
             const confirmPassword = document.getElementById('cps').value;
 
-            // فحص تطابق كلمة المرور
             if (password !== confirmPassword) {
                 alert('كلمتا المرور غير متطابقتين!');
                 return;
@@ -30,10 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
 
-            // جلب البيانات المخزنة محلياً أو البدء بمصفوفة جديدة
             let users = JSON.parse(localStorage.getItem('usersList')) || [];
 
-            // فحص إذا كان الإيميل مسجل مسبقاً
             const existingUser = users.find(u => u.email === email);
             if (existingUser) {
                 alert('هذا البريد الإلكتروني مسجل مسبقاً!');
@@ -43,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
             users.push(newUserData);
             localStorage.setItem('usersList', JSON.stringify(users));
 
-            alert('تم تسجيل الحساب بنجاح!');
             window.location.href = 'login.html';
         });
     }
@@ -55,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (loginForm) {
         loginForm.addEventListener('submit', async function(e) {
-            e.preventDefault(); // منع الإرسال الافتراضي
+            e.preventDefault();
 
             const loginInput = document.getElementById('login').value.trim();
             const passwordInput = document.getElementById('ps').value;
@@ -66,23 +62,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // جلب البيانات من ملف users.json الخارجي
                 const response = await fetch('../users.json');
                 const fileUsers = await response.json();
 
-                // جلب البيانات المضافة حديثاً من الـ localStorage (إن وجدت)
                 const localUsers = JSON.parse(localStorage.getItem('usersList')) || [];
 
-                // دمج القائمتين معاً للبحث فيهما
                 const allUsers = [...fileUsers, ...localUsers];
 
-                // البحث عن المستخدم المطابق
                 let foundUser = allUsers.find(u => 
                     (u.email === loginInput || u.firstName === loginInput) && u.password === passwordInput
                 );
 
                 if (foundUser) {
-                    // الانتقال المباشر لصفحة الـ index بدون أي رسائل تنبيه
+                    // تحويل مباشر وبدون أي رسالة Alert نهائياً!
                     window.location.href = '../index.html';
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
