@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // جلب البيانات من ملف users.json الموجود في المجلد الرئيسي (نطلع خطوة للوراء ../)
+                // جلب البيانات من ملف users.json الخارجي (الخروج خطوة للوراء للمجلد الرئيسي)
                 const response = await fetch('../users.json');
                 const fileUsers = await response.json();
 
@@ -83,6 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (foundUser) {
                     alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
+                    // الانتقال إلى الصفحة الرئيسية (index.html) الموجودة في المجلد الرئيسي
+                    window.location.href = '../index.html';
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
                 }
