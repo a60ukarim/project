@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 if (foundUser) {
                     // تحويل مباشر وبدون أي رسالة Alert نهائياً!
-                    window.location.href = '../index.html';
+                    window.location.href = 'index.html';
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
                 }
