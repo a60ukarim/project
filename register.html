@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Register</title>
+</head>
+<body>
+    <script src="script.js"></script>
+    <div class="register-container">
+
+        <form action="login.html" name="reg" method="post">
+            <table>
+                <tr>
+                    <td><label for="fn">First Name:</label></td>
+                    <td><input type="text" name="fn" id="fn" size="25" maxlength="25" required></td>
+                </tr>
+                <tr>
+                    <td><label for="ls">Last Name:</label></td>
+                    <td><input type="text" name="ls" id="ls" size="25" maxlength="25" required></td>
+                </tr>
+                <tr>
+                    <td><label for="em">Email:</label></td>
+                    <td><input type="email" name="em" id="em" size="25" required></td>
+                </tr>
+                <tr>
+                    <td><label for="age">Age:</label></td>
+                    <td><input type="number" name="age" id="age" min="16" required></td>
+                </tr>
+                <tr>
+                    <td><label for="gn">Gender:</label></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="gn" id="male" value="male">
+                        <label for="male">Male</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="radio" name="gn" id="female" value="female">
+                        <label for="female">Femal</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="ps">Password:</label></td>
+                    <td><input type="password" name="ps" id="ps" size="25" required></td>
+                </tr>
+                <tr>
+                    <td><label for="cps">Confirm Password:</label></td>
+                    <td><input type="password" name="cps" id="cps" size="25" required></td>
+                </tr>
+            </table>
+            <br>
+            <input type="reset" value="Cancel" class="box2">
+            <input type="submit" value="OK" class="box2">
+        </form>
+    </div>
+</body>
+</html>
