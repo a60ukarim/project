@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // جلب البيانات من ملف users.json الخارجي (الخروج خطوة للوراء للمجلد الرئيسي)
+                // جلب البيانات من ملف users.json الخارجي
                 const response = await fetch('../users.json');
                 const fileUsers = await response.json();
 
@@ -82,11 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 );
 
                 if (foundUser) {
-                    alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
-                    // الانتقال إلى الصفحة الرئيسية (index.html) الموجودة في المجلد الرئيسي
-                    setTimeout(function() {
-                        window.location.href = '../index.html';
-                    }, 100);
+                    // الانتقال المباشر لصفحة الـ index بدون أي رسائل تنبيه
+                    window.location.href = '../index.html';
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
                 }
