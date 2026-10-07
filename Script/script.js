@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault(); // منع الإرسال الافتراضي
 
-            // جلب الحقول
             const firstName = document.getElementById('fn').value.trim();
             const lastName = document.getElementById('ls').value.trim();
             const email = document.getElementById('em').value.trim();
@@ -23,8 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // إنشاء كائن المستخدم (Object)
-            const userData = {
+            const newUserData = {
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -32,22 +30,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 password: password
             };
 
-            // جلب البيانات القديمة من localStorage أو مصفوفة فارغة
+            // جلب البيانات المخزنة محلياً أو البدء بمصفوفة جديدة
             let users = JSON.parse(localStorage.getItem('usersList')) || [];
 
-            // فحص إذا كان الإيميل مستخدم مسبقاً
+            // فحص إذا كان الإيميل مسجل مسبقاً
             const existingUser = users.find(u => u.email === email);
             if (existingUser) {
                 alert('هذا البريد الإلكتروني مسجل مسبقاً!');
                 return;
             }
 
-            // إضافة المستخدم الجديد وحفظه كـ JSON
-            users.push(userData);
+            users.push(newUserData);
             localStorage.setItem('usersList', JSON.stringify(users));
 
             alert('تم تسجيل الحساب بنجاح!');
-            window.location.href = 'login.html'; // الانتقال لصفحة تسجيل الدخول
+            window.location.href = 'login.html';
         });
     }
 
@@ -57,29 +54,43 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.querySelector('form[name="login"]');
 
     if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
+        loginForm.addEventListener('submit', async function(e) {
             e.preventDefault(); // منع الإرسال الافتراضي
 
             const loginInput = document.getElementById('login').value.trim();
             const passwordInput = document.getElementById('ps').value;
 
             if (loginInput === '' || passwordInput === '') {
-                alert('الرجاء إدخال اسم المستخدم/البريد وكلمة المرور!');
+                alert('الرجاء إدخال اسم المستخدم وكلمة المرور!');
                 return;
             }
 
-            // استرجاع المستخدمين المخزنين كـ JSON
-            let users = JSON.parse(localStorage.getItem('usersList')) || [];
+            try {
+                // جلب البيانات من ملف users.json الخارجي
+                const response = await fetch('users.json');
+                const fileUsers = await response.json();
 
-            // البحث عن المستخدم (نبحث بالبريد الإلكتروني أو الاسم الأول كمثال)
-            let foundUser = users.find(u => (u.email === loginInput || u.firstName === loginInput) && u.password === passwordInput);
+                // جلب البيانات المضافة حديثاً من الـ localStorage (إن وجدت)
+                const localUsers = JSON.parse(localStorage.getItem('usersList')) || [];
 
-            if (foundUser) {
-                alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
-                // هنا ممكن تنقله لصفحة الداشبورد الخاصة فيه
-                // window.location.href = 'dashboard.html';
-            } else {
-                alert('خطأ في البيانات المدخلة، يرجى التأكد أو إنشاء حساب جديد!');
+                // دمج القائمتين معاً للبحث فيهما
+                const allUsers = [...fileUsers, ...localUsers];
+
+                // البحث عن المستخدم المطابق
+                let foundUser = allUsers.find(u => 
+                    (u.email === loginInput || u.firstName === loginInput) && u.password === passwordInput
+                );
+
+                if (foundUser) {
+                    alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
+                    // window.location.href = 'home.html'; // الانتقال للصفحة الرئيسية لاحقاً
+                } else {
+                    alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
+                }
+
+            } catch (error) {
+                console.error('Error loading users.json:', error);
+                alertحدث خطأ أثناء الاتصال بقاعدة البيانات المحلية.');
             }
         });
     }
