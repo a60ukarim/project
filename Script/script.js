@@ -84,7 +84,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (foundUser) {
                     alert('مرحباً بك مجدداً، ' + foundUser.firstName + '! تم تسجيل الدخول بنجاح.');
                     // الانتقال إلى الصفحة الرئيسية (index.html) الموجودة في المجلد الرئيسي
-                    window.location.href = '../index.html';
+                    setTimeout(function() {
+                        window.location.href = '../index.html';
+                    }, 100);
                 } else {
                     alert('خطأ في اسم المستخدم أو كلمة المرور، يرجى التحقق!');
                 }
