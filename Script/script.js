@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
+    fetch()
     // ==========================================
     // 1. كود صفحة التسجيل (Register Page)
     // ==========================================
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const lastName = document.getElementById('ls').value.trim();
             const email = document.getElementById('em').value.trim();
             const age = document.getElementById('age').value.trim();
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
+            const password = document.getElementById('ps').value;
+            const confirmPassword = document.getElementById('cps').value;
 
             // فحص تطابق كلمة المرور
             if (password !== confirmPassword) {
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             } catch (error) {
                 console.error('Error loading users.json:', error);
-                alertحدث خطأ أثناء الاتصال بقاعدة البيانات المحلية.');
+                alert (' حدث خطأ أثناء الاتصال بقاعدة البيانات المحلية.');
             }
         });
     }
