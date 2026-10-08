@@ -177,3 +177,22 @@ h1 {
 .right {
     text-align: right;
 }
+
+.verify-container {
+    background: #f0f4f8;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.verify {
+    margin: 0;
+    font-size: 14px;
+}
+
+.code {
+    font-size: 24px;
+    color:  #b22222;
+    letter-spacing: 3px;
+}
