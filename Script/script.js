@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('resetEmail', targetEmail);
                 localStorage.setItem('resetOTP', generatedOTP);
 
-                // الانتقال لصفحة عرض الكود والتحقق (verify-code.html)
+                // الانتقال لصفحة التحقق (verify-code.html)
                 window.location.href = 'verify-code.html';
 
             } catch (error) {
@@ -126,29 +126,30 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 4. الخطوة الثانية: عرض الكود والتحقق منه (verify-code.html)
+    // 4. الخطوة الثانية: وضع الكود تلقائياً في البوكس والتحقق منه (verify-code.html)
     // ==========================================
-    const displayOTP = document.getElementById('display-otp');
+    const numberInput = document.getElementById('number');
     const verifyForm = document.getElementById('verifyForm');
     const successMessage = document.getElementById('success-message');
 
-    if (displayOTP) {
+    // طبع الكود تلقائياً داخل البوكس فور فتح الصفحة
+    if (numberInput) {
         const savedOTP = localStorage.getItem('resetOTP');
         if (savedOTP) {
-            displayOTP.textContent = savedOTP;
+            numberInput.value = savedOTP;
         } else {
-            displayOTP.textContent = "----";
+            numberInput.value = "";
         }
     }
 
     if (verifyForm) {
         verifyForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const enteredCode = document.getElementById('number').value.trim();
+            const enteredCode = numberInput.value.trim();
             const savedOTP = localStorage.getItem('resetOTP');
 
             if (enteredCode !== savedOTP) {
-                alert('كود التحقق غير صحيح! تأكد من الرقم الظاهر على الشاشة.');
+                alert('كود التحقق غير صحيح!');
                 return;
             }
 
