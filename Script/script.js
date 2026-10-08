@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('resetEmail', targetEmail);
                 localStorage.setItem('resetOTP', generatedOTP);
 
-                // الانتقال لصفحة التحقق (verify-code.html)
+                // الانتقال لصفحة التحقق
                 window.location.href = 'verify-code.html';
 
             } catch (error) {
@@ -129,23 +129,23 @@ document.addEventListener('DOMContentLoaded', function() {
     // 4. الخطوة الثانية: وضع الكود تلقائياً في البوكس والتحقق منه (verify-code.html)
     // ==========================================
     const numberInput = document.getElementById('number');
-    const verifyForm = document.getElementById('verifyForm');
+    const verifyForm = document.getElementById('verifyForm') || document.querySelector('.verify-container form');
     const successMessage = document.getElementById('success-message');
 
-    // طبع الكود تلقائياً داخل البوكس فور فتح الصفحة
     if (numberInput) {
-        const savedOTP = localStorage.getItem('resetOTP');
-        if (savedOTP) {
-            numberInput.value = savedOTP;
-        } else {
-            numberInput.value = "";
+        let savedOTP = localStorage.getItem('resetOTP');
+        // إذا لم يكن هناك كود مخزن لأي سبب، نقوم بتوليد كود افتراضي فوراً ليظهر في البوكس
+        if (!savedOTP) {
+            savedOTP = Math.floor(1000 + Math.random() * 9000).toString();
+            localStorage.setItem('resetOTP', savedOTP);
         }
+        numberInput.value = savedOTP;
     }
 
     if (verifyForm) {
         verifyForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const enteredCode = numberInput.value.trim();
+            const enteredCode = numberInput ? numberInput.value.trim() : '';
             const savedOTP = localStorage.getItem('resetOTP');
 
             if (enteredCode !== savedOTP) {
@@ -153,15 +153,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // إظهار الرسالة الخضراء أعلى الشاشة بنجاح التحقق
+            // إظهار الرسالة الخضراء أعلى الشاشة
             if (successMessage) {
                 successMessage.style.display = 'block';
             }
 
-            // الانتقال لصفحة تعيين كلمة المرور الجديدة بعد ثانية واحدة
+            // الانتقال لصفحة تعيين كلمة المرور الجديدة
             setTimeout(function() {
                 window.location.href = 'reset-password.html';
-            }, 1200);
+            }, 1000);
         });
     }
 
