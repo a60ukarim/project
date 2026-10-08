@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 3. كود صفحة طلب استعادة الباسورد (forgot-password.html)
+    // 3. الخطوة الأولى: طلب البريد الإلكتروني (forgot-password_3.html)
     // ==========================================
     const forgotEmailForm = document.querySelector('form[name="reset-password"]');
 
@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetEmail = document.getElementById('em').value.trim();
 
             try {
-                // جلب المستخدمين من الملف والثابت والـ LocalStorage للتحقق من وجود الإيميل
                 const response = await fetch('../users.json');
                 const fileUsers = await response.json();
                 const localUsers = JSON.parse(localStorage.getItem('usersList')) || [];
@@ -112,12 +111,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // توليد كود عشوائي من 4 أرقام
                 const generatedOTP = Math.floor(1000 + Math.random() * 9000).toString();
 
-                // تخزين الإيميل والكود مؤقتاً لنقلهما للصفحة التالية
+                // تخزين الإيميل والكود مؤقتاً في localStorage
                 localStorage.setItem('resetEmail', targetEmail);
                 localStorage.setItem('resetOTP', generatedOTP);
 
-                // الانتقال لصفحة إدخال الكود وتحديث الباسورد
-                window.location.href = 'reset-password.html';
+                // الانتقال لصفحة عرض الكود والتحقق (verify-code.html)
+                window.location.href = 'verify-code.html';
 
             } catch (error) {
                 console.error('Error checking email:', error);
@@ -127,36 +126,56 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ==========================================
-    // 4. كود صفحة تعيين كلمة المرور الجديدة (reset-password.html)
+    // 4. الخطوة الثانية: عرض الكود والتحقق منه (verify-code.html)
     // ==========================================
-    const displayCode = document.getElementById('display-code');
-    const updatePasswordForm = document.querySelector('form[name="forgot-password"]');
+    const displayOTP = document.getElementById('display-otp');
+    const verifyForm = document.getElementById('verifyForm');
+    const successMessage = document.getElementById('success-message');
 
-    // عرض الكود المولد تلقائياً على الشاشة عند فتح الصفحة
-    if (displayCode) {
+    if (displayOTP) {
         const savedOTP = localStorage.getItem('resetOTP');
         if (savedOTP) {
-            displayCode.textContent = savedOTP;
+            displayOTP.textContent = savedOTP;
         } else {
-            displayCode.textContent = "----";
+            displayOTP.textContent = "----";
         }
     }
+
+    if (verifyForm) {
+        verifyForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const enteredCode = document.getElementById('number').value.trim();
+            const savedOTP = localStorage.getItem('resetOTP');
+
+            if (enteredCode !== savedOTP) {
+                alert('كود التحقق غير صحيح! تأكد من الرقم الظاهر على الشاشة.');
+                return;
+            }
+
+            // إظهار الرسالة الخضراء أعلى الشاشة بنجاح التحقق
+            if (successMessage) {
+                successMessage.style.display = 'block';
+            }
+
+            // الانتقال لصفحة تعيين كلمة المرور الجديدة بعد ثانية واحدة
+            setTimeout(function() {
+                window.location.href = 'reset-password.html';
+            }, 1200);
+        });
+    }
+
+    // ==========================================
+    // 5. الخطوة الثالثة: تعيين كلمة المرور الجديدة (reset-password_2.html)
+    // ==========================================
+    const updatePasswordForm = document.querySelector('form[name="forgot-password"]');
 
     if (updatePasswordForm) {
         updatePasswordForm.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const enteredCode = document.getElementById('verification-code').value.trim();
             const newPassword = document.getElementById('newps').value;
             const confirmNewPassword = document.getElementById('cnewps').value;
-            
-            const savedOTP = localStorage.getItem('resetOTP');
             const targetEmail = localStorage.getItem('resetEmail');
-
-            if (enteredCode !== savedOTP) {
-                alert('كود التحقق غير صحيح!');
-                return;
-            }
 
             if (newPassword !== confirmNewPassword) {
                 alert('كلمتا المرور غير متطابقتين!');
@@ -168,16 +187,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // تحديث الباسورد (سواء كان في الـ LocalStorage أو تعديله)
             let localUsers = JSON.parse(localStorage.getItem('usersList')) || [];
             let userIndex = localUsers.findIndex(u => u.email === targetEmail);
 
             if (userIndex !== -1) {
-                // إذا كان المستخدم مخزناً محلياً
                 localUsers[userIndex].password = newPassword;
                 localStorage.setItem('usersList', JSON.stringify(localUsers));
             } else {
-                // إذا كان من المستخدمين الافتراضيين في users.json، نقوم بإضافته كحساب جديد بالباسورد المحدثة في الـ localUsers
                 try {
                     const response = await fetch('../users.json');
                     const fileUsers = await response.json();

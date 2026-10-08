@@ -180,10 +180,10 @@ h1 {
 
 .verify-container {
     background: #f0f4f8;
-    padding: 10px;
+    padding: 20px;
     border-radius: 10px;
-    margin-bottom: 15px;
     color: #333;
+    text-align: center;
 }
 
 .verify {
@@ -195,4 +195,18 @@ h1 {
     font-size: 24px;
     color:  #b22222;
     letter-spacing: 3px;
+}
+
+.box-code {
+    display: none;
+    background-color: #ae5515;
+    color: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #553b28;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: bold;
 }
