@@ -136,3 +136,11 @@ h1 {
     border-radius: 20px;
     padding: 20px;
 }
+
+.acc[type="submit"] {
+    border-radius: 20px;
+    border-style: solid;
+    background-color: #553b28;
+    padding: 20px;
+    transform: scale(1.6);
+}
